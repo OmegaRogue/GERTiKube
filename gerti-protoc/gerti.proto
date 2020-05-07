@@ -77,3 +77,16 @@ message DataPacket {
     int32 Order = 3;
     string Origin = 4;
 }
+
+
+message ConnectionTable {
+
+    message ConnectionBuffer {
+        message ConnectionData {
+            google.protobuf.Any Data = 1;
+            int32 Order = 2;
+        }
+        repeated ConnectionData Buffer = 1;
+    }
+    map<string, ConnectionBuffer> Table = 1;
+}
