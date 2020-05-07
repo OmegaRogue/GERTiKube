@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: addresses
+  namespace: gert
+data:
+  gerte: "3877.3877"
+  addresses: |
+    services:
+      - name: test
+        address: "0000.0001"
+      - name: test2
+        address: "0000.0002"

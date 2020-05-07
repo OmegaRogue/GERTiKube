@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/any.proto";
+
+option go_package = ".;gerti";
+package gerti;
+
+enum NewNodeType {
+    Initial = 0;
+    Assignment = 1;
+    Announce = 2;
+    Stored = 3;
+}
+
+service GERTi {
+    // Startup
+    rpc AnnounceNewNode (NewNode) returns (NewNode);
+    rpc Register (RegisterNode) returns (RegisterComplete);
+    rpc AnounceNode (NewNode) returns (google.protobuf.Empty);
+    // Connection Opening
+    rpc OpenConnection (OpenRoute) returns (RouteOpen);
+    // Data Transmission
+    rpc Data (DataPacket) returns (google.protobuf.Empty);
+    // Shutdown
+    rpc RemoveNeighbor (RemoveNeighborData) returns (google.protobuf.Empty);
+    rpc CloseConnection (CloseConnectionData) returns (google.protobuf.Empty);
+
+}
+
+
+
+message NewNode {
+    NewNodeType Type = 1;
+    oneof Content {
+        NewNodeData Data = 2;
+        google.protobuf.Empty None = 3;
+    }
+}
+message NewNodeData {
+    string Address = 1;
+    int32 Tier = 2;
+}
+
+message RegisterNode {
+    string Ip = 1;
+    int32 Tier = 2;
+}
+message RegisterComplete {
+    string TargetIp = 1;
+    string GERTiAddress = 2;
+}
+
+message RemoveNeighborData {
+    string Address = 1;
+}
+message CloseConnectionData {
+    string ConnectDex = 1;
+}
+
+message OpenRoute {
+    string Dest = 1;
+    string Intermediary = 2;
+    string Origin = 3;
+    int32 ID = 4;
+}
+
+message RouteOpen {
+    string Origin = 1;
+    string PktDesk = 2;
+    string PktOrigin = 3;
+}
+
+message DataPacket {
+    google.protobuf.Any Data = 1;
+    string ConnectDex = 2;
+    int32 Order = 3;
+    string Origin = 4;
+}

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service                                 # Type of the kubernetes resource
+metadata:
+  name: gerti-mnc                # Name of the Kubernetes resource
+  labels:                                     # Labels that will be applied to the resource
+    app: gerti-mnc
+spec:
+  type: NodePort                              # Gives each node an external IP that’s accessible from outside the cluster and also opens a Port.
+  selector:
+    app: gerti-mnc               # Selects any Pod with labels `app=fullstack-app-postgres`
+  ports:
+    - name: gerti
+      port: 4378
+      targetPort: 4378
